@@ -39,7 +39,7 @@ int main()
                 tempNode = readNode();
                 insert(root,tempNode);
                 break;
-        /*    case 2:
+            case 2:
                 printf("enter item to delete: ");
                 scanf("%d",&item);
                 tempNode2 = delete(root,item);
@@ -47,7 +47,7 @@ int main()
                     printf("Item deleted.\n");
                 else
                     printf("Item not found.\n");
-                break; */
+                break; 
             case 3:
                 if(root != NULL)
                     traverse(root);
@@ -56,11 +56,11 @@ int main()
                 break;
             case 4:
                 printf("enter item to search: ");
-                scanf("%d",item);
+                scanf("%d",&item);
                 tempNode2 = search(root,item);
                 if(tempNode2 != NULL)
-                printf("Item: %d, left child item: %d, right child item: %d",
-                        tempNode2->data,tempNode2->left->data,tempNode2->right->data);
+                printf("Item: %d, left child: %d, right child: %d",
+                        tempNode2->data,tempNode2->left,tempNode2->right);
                 else
                     printf("Item is not found.");
                 break;
@@ -110,7 +110,7 @@ int getRightMin(BST* treeRoot){
 void traverse(BST* treeRoot){
     
     if(treeRoot != NULL){
-        printf("%d\t",treeRoot->data);  //root
+        printf("Value: %d Node address: %d, ",treeRoot->data, treeRoot);  //root
         traverse(treeRoot->left);       //left 
         traverse(treeRoot->right);      //right
     }
@@ -146,4 +146,42 @@ void insert(BST* treeRoot,BST* newNode){
         
         }
     }
+}
+
+BST *delete(BST* treeRoot, int item){
+    if(treeRoot == NULL)//check tree is empty or not.
+    {
+        
+        return NULL;
+    }
+    if(treeRoot->data < item){
+        treeRoot->right = delete(treeRoot->right, item);
+    }
+    else if(treeRoot->data > item)
+    {
+        treeRoot->left = delete(treeRoot->left, item); 
+    }
+    else //we find the item in the tree.
+    {
+        if(treeRoot->right == NULL && treeRoot->left == NULL){ //leaf node
+            free(treeRoot);
+            return NULL;
+        }
+        else if(treeRoot->right == NULL){ //node has only left child
+            BST *temp = treeRoot->left;
+            free(treeRoot);
+            return temp;
+        }
+        else if(treeRoot->left == NULL){ //node has only right child
+            BST *temp = treeRoot->right;
+            free(treeRoot);
+            return temp;
+        }
+        else{// have both right and left child
+            int rightMin = getRightMin(treeRoot->right);
+            treeRoot->data = rightMin;
+            treeRoot->right = delete(treeRoot->right, rightMin);
+        }
+    }
+    return treeRoot;
 }
