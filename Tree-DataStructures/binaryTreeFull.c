@@ -22,7 +22,7 @@ int main()
     int choice=0,item, count = 0;
     BST *tempNode, *tempNode2;
 
-    while (1)
+    while (choice < 6)
     {
         printf("\n**************\n"
             "1. insert node\n"
@@ -82,7 +82,7 @@ BST *readNode(){
     BST *newNode = (BST*)malloc(sizeof(BST));
 
     printf("enter value of node: \n");
-    scanf("%d",newNode->data);
+    scanf("%d",&newNode->data);
     newNode->right = newNode->left = NULL;
     return newNode;
 }
